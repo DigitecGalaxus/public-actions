@@ -41,7 +41,7 @@ jobs:
           with:
             repository: DigitecGalaxus/public-actions
         - name: Build and Push Docker Images
-          uses: DigitecGalaxus/public-actions/build/docker-bake/action.yml@v2
+          uses: DigitecGalaxus/public-actions/build/docker-bake@v2
           with:
               docker_image_tag: ${{ inputs.docker_image_tag }}
               docker_bakefile_path: ${{ inputs.docker_bakefile_path }}
