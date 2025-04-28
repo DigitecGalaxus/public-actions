@@ -36,7 +36,7 @@ runs:
         IMAGE_TAG=${{ inputs.docker_image_tag }} \
           /usr/bin/docker buildx bake \
             -f ${{ inputs.docker_bakefile_path }} \
-            --progress=plain \
+            --progress=quiet \
             2>&1 \
           | perl -pe 's/(.*?: error )/::error::\1/i;' \
             -pe 's/::error::#(.*?\/app\/(.*?)\((\d+),(\d+)\))/::error file=\2,line=\3,col=\4::\1/i'
