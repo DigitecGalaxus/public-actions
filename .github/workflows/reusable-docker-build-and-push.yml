@@ -33,12 +33,18 @@ permissions:
 
 jobs:
   build_and_push:
-    name: Build and Push Docker Images
+    runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
-    uses: DigitecGalaxus/actions/build/docker-backe/action.yml@v2
-    with:
-      docker_image_tag: ${{ inputs.docker_image_tag }}
-      docker_bakefile_path: ${{ inputs.docker_bakefile_path }}
-      docker_registry_name: ${{ inputs.docker_registry_name }}
-      azure_managed_identity_clientid: ${{ vars.MANAGED_IDENTITY_CLIENT_ID }}
+    steps:
+        - name: Checkout public-actions repository
+          uses: actions/checkout@v3
+          with:
+            repository: DigitecGalaxus/public-actions
+        - name: Build and Push Docker Images
+          uses: DigitecGalaxus/public-actions/build/docker-backe/action.yml@v2
+          with:
+              docker_image_tag: ${{ inputs.docker_image_tag }}
+              docker_bakefile_path: ${{ inputs.docker_bakefile_path }}
+              docker_registry_name: ${{ inputs.docker_registry_name }}
+              azure_managed_identity_clientid: ${{ vars.MANAGED_IDENTITY_CLIENT_ID }}
       
