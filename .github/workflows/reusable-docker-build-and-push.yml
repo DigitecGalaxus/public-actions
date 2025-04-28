@@ -1,0 +1,44 @@
+name: Reusable Docker build and push
+
+on:
+  workflow_call:
+    inputs:
+      docker_image_tag:
+        description: "image tag to use for the docker image"
+        required: true
+        type: string
+      docker_bakefile_path:
+        description: "Path to the docker bake file"
+        required: false
+        type: string
+      docker_registry_name:
+        default: anymodconrst001dg
+        description: "The name of the docker registry. E.g. anymodconrst001dg"
+        type: string
+      environment:
+        description: "The github environment to use"
+        required: false
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.repository }}
+  cancel-in-progress: true
+
+permissions:
+  id-token: write
+  contents: read
+  checks: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  build_and_push:
+    name: Build and Push Docker Images
+    environment: ${{ inputs.environment }}
+    uses: DigitecGalaxus/actions/build/docker-backe/action.yml@v2
+    with:
+      docker_image_tag: ${{ inputs.docker_image_tag }}
+      docker_bakefile_path: ${{ inputs.docker_bakefile_path }}
+      docker_registry_name: ${{ inputs.docker_registry_name }}
+      azure_managed_identity_clientid: ${{ vars.MANAGED_IDENTITY_CLIENT_ID }}
+      
