@@ -33,6 +33,9 @@ runs:
     - name: build docker images (buildx bake)
       shell: bash
       run: |
+        pwd
+        ls -al
+        tree
         IMAGE_TAG=${{ inputs.docker_image_tag }} \
           /usr/bin/docker buildx bake \
             -f ${{ inputs.docker_bakefile_path }} \
